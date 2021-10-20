@@ -50,7 +50,34 @@ cursor: pointer;
     background: transparent;
     font-size:0;
 }
-.button-div{
+
+.overlay {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    text-align: left;
+    background-color: #333333;
+	padding: 2%;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	border-radius:0.1em;
+	color: white;
+    opacity: 0;
+    transition: opacity .2s ease-out;
+}
+
+.innerbutton{
+     margin-top: 1px;
+     margin-right: 2px;
+     position:absolute;
+     top:0;
+     right:0;
+	display:block;
+	cursor: pointer;
+	border: transparent;
+    background: transparent;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	color: #F3F3F3;
 }
 
 </style>
@@ -352,7 +379,7 @@ items.data.features.forEach(function (marker) {
 
     });
 
-class MyCustomControl {
+class ResetButton {
   onAdd(map){
     this.map = map;
     this.container = document.createElement('div');
@@ -384,10 +411,54 @@ essential: true // this animation is considered essential with respect to prefer
   }
 }
 
-const myCustomControl = new MyCustomControl();
-map.addControl(myCustomControl);
+
+
+class AboutButton {
+  onAdd(map){
+    this.map = map;
+    this.container = document.createElement('div');
+	this.container.style.backgroundSize = 'cover';
+	this.container.style.backgroundImage = 'url(https://image.flaticon.com/icons/png/512/128/157933.png)';
+	this.container.style.width = '25px';
+	this.container.style.height = '25px';
+    this.container.style.margin = '1em 1em 0em 0em';
+    this.container.className = 'mapboxgl-ctrl';
+    const button = this._createButton('button2')
+    this.container.appendChild(button);
+    return this.container;
+  }
+  onRemove(){
+    this.container.parentNode.removeChild(this.container);
+    this.map = undefined;
+  }
+  
+  _createButton(className) {
+    const el = window.document.createElement('button')
+    el.className = className;
+    el.addEventListener('click',(e)=>{
+  let overlayDiv = document.querySelector(".overlay");
+  console.log(overlayDiv.style.opacity);
+  if (overlayDiv.style.opacity === '0')
+    overlayDiv.style.opacity = 1;
+  else
+    overlayDiv.style.opacity = 0;},false )
+    return el;
+  }
+}
+
+const resetButton = new ResetButton();
+map.addControl(resetButton);
+
+const aboutButton = new AboutButton();
+map.addControl(aboutButton);
+
+
 
 </script>
+
+<div class="overlay" style="opacity: 0;">
+<button  class = "innerbutton" onclick="document.querySelector('.overlay').style.opacity = 0">close</button>
+Hier steht ein interessanter Text über unser Projekt. <br> Und darüber, wer wir sind und was wir machen. <br> Ganz tolle Sachen nämlich. <br> Außerdem gibt es Kuchen.  <br> Vielleicht. <br> </div>
 
 </body>
 </html>
