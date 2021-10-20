@@ -1,55 +1,5 @@
-"type": "FeatureCollection",
+  "type": "FeatureCollection",
   "features": [
-  {
-      "type": "Feature",
-      "properties": {
-			'description': 'Maria Tackmann, Öl auf Brache, 2021.',
-            'icon': 'https://image.flaticon.com/icons/png/512/808/808569.png',
-            'iconSize': [10, 10],
-			'rotation' : 90,
-			'begin' : '2021-09-14-00-00',
-			'end' : '2021-11-05-23-59',
-			'begin_daily' : '00-00',
-			'end_daily' : '23-59',
-			'area' : {'type': 'geojson',
-				'data': {'type': 'Feature',
-							'geometry': {'type': 'Polygon','coordinates': [
-            [
-			  8.349302262067795,
-              49.01907291804756
-            ],
-            [
-              8.349264711141586,
-              49.019063243472445
-            ],
-            [
-              8.34925130009651,
-              49.01904125579471
-            ],
-            [
-              8.349296897649765,
-              49.01901750909186
-            ],
-            [
-              8.349330425262451,
-              49.019029822198455
-            ],
-            [
-              8.349337130784988,
-              49.01905972544465
-            ],
-            [
-              8.349302262067795,
-              49.01907291804756
-            ]]}}}},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-              8.34928,
-              49.019025
-            ]
-      }
-    },
     {
       "type": "Feature",
       "properties": {
@@ -60,7 +10,8 @@
 			'begin' : '2021-09-14-00-00',
 			'end' : '2021-11-05-23-59',
 			'begin_daily' : '00-00',
-			'end_daily' : '23-59'},
+			'end_daily' : '23-59'
+		},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -68,7 +19,6 @@
           49.018904052466226
         ]
       }
-	 }
     },
     {
       "type": "Feature",
@@ -80,7 +30,8 @@
 			'begin' : '1970-01-01-00-00',
 			'end' : '2100-12-31-23-59',
 			'begin_daily' : '00-00',
-			'end_daily' : '23-59'},
+			'end_daily' : '23-59'
+		},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -88,7 +39,6 @@
           49.018868872064665
         ]
       }
-	 }
     },
     {
       "type": "Feature",
@@ -100,7 +50,8 @@
 			'begin' : '1970-01-01-00-00',
 			'end' : '2100-12-31-23-59',
 			'begin_daily' : '21-00',
-			'end_daily' : '21-45'},
+			'end_daily' : '21-45'
+		},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -108,6 +59,5 @@
           49.01910106225542
         ]
       }
-	 }
     }
   ]
