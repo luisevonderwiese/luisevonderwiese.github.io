@@ -13,7 +13,7 @@
 			'end_daily' : '23-59',
 			'area' : {'type': 'geojson',
 				'data': {'type': 'Feature',
-							'geometry': {'type': 'Polygon','coordinates': [[
+							'geometry': {'type': 'Polygon','coordinates': [
             [
 			  8.349302262067795,
               49.01907291804756
@@ -41,7 +41,7 @@
             [
               8.349302262067795,
               49.01907291804756
-            ]]]}}}},
+            ]]}}}},
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -68,6 +68,7 @@
           49.018904052466226
         ]
       }
+	 }
     },
     {
       "type": "Feature",
@@ -87,6 +88,7 @@
           49.018868872064665
         ]
       }
+	 }
     },
     {
       "type": "Feature",
@@ -106,6 +108,6 @@
           49.01910106225542
         ]
       }
+	 }
     }
   ]
-}
