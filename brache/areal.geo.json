@@ -1,9 +1,7 @@
-'type': 'geojson',
-'data': {
 'type': 'Feature',
 'geometry': {
 'type': 'Polygon',
-'coordinates': [
+'coordinates': 
 [
             [
               8.348906636238098,
@@ -26,6 +24,4 @@
               49.01894626891527
             ]
 ]
-]
-}
 }
