@@ -61,10 +61,7 @@ cursor: pointer;
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibHVpc2UtaGFldXNlciIsImEiOiJja2d3MHEybHQwNW5pMzBycm9rOXFndzV0In0.0DUrtkqAOlmHkX8BXtixmw';
-var items = {
-'type': 'geojson',
-'data': https://luisevonderwiese.github.io/brache/items.geo.json
-}
+
 
 var map = new mapboxgl.Map({
 container: 'map',
@@ -128,6 +125,11 @@ map.addLayer({
 'line-width': 5
 //line-opacity
 }});
+
+var items = {
+'type': 'geojson',
+'data': https://luisevonderwiese.github.io/brache/items.geo.json
+}
 
 var i = 0
 items.data.features.forEach(function (marker) {
