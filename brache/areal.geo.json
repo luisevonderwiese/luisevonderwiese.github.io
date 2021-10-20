@@ -1,4 +1,4 @@
-'type': 'Feature',
+{'type': 'Feature',
 'geometry': {
 'type': 'Polygon',
 'coordinates': 
@@ -24,4 +24,5 @@
               49.01894626891527
             ]
 ]
+}
 }
