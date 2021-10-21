@@ -62,7 +62,7 @@ cursor: pointer;
     font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	border-radius:0.1em;
 	color: white;
-    opacity: 0;
+	visibility: hidden;
     transition: opacity .2s ease-out;
 }
 
@@ -310,6 +310,8 @@ items.data.features.forEach(function (marker) {
 		i++;
 	}
 });
+console.log(map.getSource("area_0")); 
+console.log(map.getSource("border")); 
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -334,20 +336,13 @@ items.data.features.forEach(function (marker) {
         el.className = 'marker';
 		el.style.width = marker.properties.iconSize[0] + 'px';
         el.style.height = marker.properties.iconSize[1] + 'px';
+		el.style.border = marker.properties.iconSize[0] + 'px';
 		el.style.backgroundImage = 'url(\'' + marker.properties.icon + '\')';
-		deg = 90;
+		var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
+			"<div style=\"padding:12px\"><img class = \"popupimg\" src=\"" + marker.properties.image + "\" style=\"margin:auto; width:200px;display:block\" />" + marker.properties.description + '<div/>'
+				
+		);
 		
-		
-		if(!vorort_mode) {
-			var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
-				marker.properties.description + '<div/>');
-		} else {
-			var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
-				"<div style=\"padding:12px\"><img src=\"" + marker.properties.image + "\" style=\"margin:auto; width:200px;display:block\" />" + marker.properties.description + '<div/>');
-		}
-
-	console.debug(popup);
- 
 		new mapboxgl.Marker(el)
 		.setLngLat(marker.geometry.coordinates)
 		.setPopup(popup)
@@ -381,13 +376,6 @@ function visibleNow(marker) {
 }
 
 	
-function checkpoint(h , k , x , y , a , b)
-{
- 
-    // checking the equation of
-    // ellipse with the given point
-
-}
 function nearAreal(x, y){
 	var x_rad = 0.001;
 	var y_rad = 0.0005;
@@ -456,10 +444,10 @@ class AboutButton {
     el.addEventListener('click',(e)=>{
   let overlayDiv = document.querySelector(".overlay");
   console.log(overlayDiv.style.opacity);
-  if (overlayDiv.style.opacity === '0')
-    overlayDiv.style.opacity = 1;
+  if (overlayDiv.style.visibility === 'hidden')
+    overlayDiv.style.visibility = 'visible';
   else
-    overlayDiv.style.opacity = 0;},false )
+    overlayDiv.style.opacity = 'hidden';},false )
     return el;
   }
 }
@@ -474,8 +462,8 @@ map.addControl(aboutButton);
 
 </script>
 
-<div class="overlay" style="opacity: 0;">
-<button  class = "innerbutton" onclick="document.querySelector('.overlay').style.opacity = 0">close</button>
+<div class="overlay" style="visibility: hidden;">
+<button  class = "innerbutton" onclick="document.querySelector('.overlay').style.visibility = 'hidden'">close</button>
 Hier steht ein interessanter Text über unser Projekt. <br> Und darüber, wer wir sind und was wir machen. <br> Ganz tolle Sachen nämlich. <br> Außerdem gibt es Kuchen.  <br> Vielleicht. <br> </div>
 
 </body>
