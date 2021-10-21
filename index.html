@@ -310,8 +310,6 @@ items.data.features.forEach(function (marker) {
 		i++;
 	}
 });
-console.log(map.getSource("area_0")); 
-console.log(map.getSource("border")); 
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -326,7 +324,40 @@ if (navigator.geolocation) {
   });
 }
 
+
 });
+
+
+items.data.features.forEach(function (marker) {
+	if(visibleNow(marker)){
+	    var el = document.createElement('div');
+        el.className = 'marker';
+		el.style.width = marker.properties.iconSize[0] + 'px';
+        el.style.height = marker.properties.iconSize[1] + 'px';
+		el.style.backgroundImage = 'url(\'' + marker.properties.icon + '\')';
+		deg = 90;
+		
+		
+		if(!vorort_mode) {
+			var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
+				marker.properties.description + '<div/>');
+		} else {
+			var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
+				"<div style=\"padding:12px\"><img src=\"" + marker.properties.image + "\" style=\"margin:auto; width:200px;display:block\" />" + marker.properties.description + '<div/>');
+		}
+
+	console.debug(popup);
+ 
+		new mapboxgl.Marker(el)
+		.setLngLat(marker.geometry.coordinates)
+		.setPopup(popup)
+		.addTo(map);
+		
+
+	}
+		
+
+    });
 
 
 
@@ -348,37 +379,7 @@ function visibleNow(marker) {
 	}
 	return true;
 }
-items.data.features.forEach(function (marker) {
-	if(visibleNow(marker)){
-	    var el = document.createElement('div');
-        el.className = 'marker';
-		el.style.width = marker.properties.iconSize[0]*2 + 'px';
-        el.style.height = marker.properties.iconSize[1]*2 + 'px';
-		el.style.backgroundImage = 'url(\'' + marker.properties.icon + '\')';
-		deg = 90;
-		
-	
-		
-		if(vorort_mode) {
-			var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
-				marker.properties.description + '<div/>');
-		} else {
-			var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-				marker.properties.image + '<div>' + marker.properties.description + '<div/>');
-		}
 
- 
- 
-		new mapboxgl.Marker(el)
-		.setLngLat(marker.geometry.coordinates)
-		.setPopup(popup) // sets a popup on this marker
-		.addTo(map);
-		
-
-	}
-		
-
-    });
 	
 function checkpoint(h , k , x , y , a , b)
 {
