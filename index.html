@@ -163,7 +163,7 @@ var items = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.349123895168304,
+          8.349193895168304,
           49.018904052466226
         ]
       }
@@ -217,8 +217,8 @@ container: 'map',
 style: 'mapbox://styles/luise-haeuser/cktemen6q2gba17s0txukk39c', 
 center: [center_x, center_y], 
 zoom: 18.5,
-maxZoom: 19,
-minZoom: 18
+/*maxZoom: 19,
+minZoom: 18*/
 });
 
 var geolocate = new mapboxgl.GeolocateControl({
@@ -232,10 +232,14 @@ showUserHeading: true
 });
 
 /*geolocate.on('geolocate', function(e) {
-      var lon = e.coords.longitude;
-      var lat = e.coords.latitude
-      var position = [lon, lat];
-      console.log(position);
+	if(!nearAreal(e.coords.longitude, e.coords.latitude)) {
+				map.flyTo({
+					center: [center_x, center_y],
+					zoom: 18.5,
+					essential: true // this animation is considered essential with respect to prefers-reduced-motion
+				});
+				//alert("Standort außerhalb der Ausstellungsfläche!");
+	}
 });*/
 
 map.addControl(geolocate);
@@ -254,26 +258,30 @@ map.addSource('border', {
 'geometry': {
 'type': 'Polygon',
 'coordinates': [
-[
             [
-              8.348906636238098,
-              49.01894626891527
+            [
+				8.349478,
+				49.019124
             ],
             [
-              8.349064886569975,
-              49.01867186135641
+				8.349093,
+				49.019028
             ],
             [
-              8.349700570106506,
-              49.01883545066015
+				8.349046,
+				49.018993
             ],
             [
-              8.349496722221375,
-              49.019218915953
+				8.349191,
+				49.018706
             ],
             [
-              8.348906636238098,
-              49.01894626891527
+				8.349659,
+				49.018827
+            ],
+			[
+				8.349478,
+				49.019124
             ]
 ]
 ]
@@ -310,14 +318,10 @@ items.data.features.forEach(function (marker) {
 		i++;
 	}
 });
-console.log(map.getSource("area_0")); 
-console.log(map.getSource("border")); 
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
-    coordinates = [position.coords.latitude, position.coords.longitude];
-	console.log(coordinates);
-	if(!nearAreal(position.coords.latitude, position.coords.longitude)) {
+	if(!nearAreal(position.coords.longitude, position.coords.latitude)) {
 		vorort_mode = false;
 		console.log("switch to home mode");
 	} else {
@@ -377,10 +381,13 @@ function visibleNow(marker) {
 
 	
 function nearAreal(x, y){
-	var x_rad = 0.001;
-	var y_rad = 0.0005;
-    var p = (parseInt(Math.pow((x - center_x), 2)) / parseInt(Math.pow(0.001, 2)))
-            + (parseInt(Math.pow((y - center_y), 2)) / parseInt(Math.pow(0.0008, 2)));
+	/*var y_rad = 0.001;
+	var x_rad = 0.0005;*/
+	//Bis Bibliothek
+	var y_rad = 0.02;
+	var x_rad = 0.01;
+    var p = (parseInt(Math.pow((x - center_x), 2)) / parseInt(Math.pow(x_rad, 2)))
+            + (parseInt(Math.pow((y - center_y), 2)) / parseInt(Math.pow(y_rad, 2)));
  
     return p <= 1;
 }
@@ -409,7 +416,8 @@ class ResetButton {
     el.className = className;
     el.addEventListener('click',(e)=>{
 		this.map.flyTo({
-center: [8.349325060844421, 49.01890053442718],
+center: [center_x, center_y],
+zoom: 18.5,
 essential: true // this animation is considered essential with respect to prefers-reduced-motion
 });
     },false )
