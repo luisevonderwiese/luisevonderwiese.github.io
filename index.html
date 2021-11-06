@@ -2,11 +2,16 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Brache</title>
+<title>ex-tennis</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
 <style>
+
+@font-face {
+   font-family: Alpha-Medium; 
+   src: url('https://ex-tennis.github.io/fonts/Alpha-Medium.otf');
+}
 
 
 body { margin: 0; padding: 0; }
@@ -15,7 +20,7 @@ body { margin: 0; padding: 0; }
 
 	.mapboxgl-popup {
 max-width: 400px;
-font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+font: 12px/20px 'Alpha-Medium';
 padding-top: -20px;
 }
 
@@ -58,12 +63,14 @@ cursor: pointer;
     transform:translate(-50%, -50%);
     text-align: left;
     background-color: #333333;
-	padding: 24px;
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	padding: 2%;
+    font: 12px/20px 'Alpha-Medium';
 	border-radius:0.1em;
 	color: white;
 	visibility: hidden;
     transition: opacity .2s ease-out;
+	overflow-y: scroll;
+	height:400px;
 }
 
 .innerbutton{
@@ -76,7 +83,7 @@ cursor: pointer;
 	cursor: pointer;
 	border: transparent;
     background: transparent;
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font: 12px/20px 'Alpha-Medium';
 	color: #F3F3F3;
 }
 
@@ -87,124 +94,872 @@ cursor: pointer;
 <div id="map"></div>
 
 <script>
+//tennisfarbe: #993300
 mapboxgl.accessToken = 'pk.eyJ1IjoibHVpc2UtaGFldXNlciIsImEiOiJja2d3MHEybHQwNW5pMzBycm9rOXFndzV0In0.0DUrtkqAOlmHkX8BXtixmw';
-var center_x = 8.349325060844421;
-var center_y = 49.01890053442718;
-var vorort_mode = true;
-var show_selector = true;
+var center_long = 23.726747035921534;
+var center_lat = 37.976717979828365;
+var center_zoom = 12;
+var markers = [];
 var items = {
 'type': 'geojson',
 'data': {
   "type": "FeatureCollection",
   "features": [
-  {
+	{
       "type": "Feature",
       "properties": {
-			'description': 'Maria Tackmann, Öl auf Brache, 2021.',
-			'image': 'https://luisevonderwiese.github.io/images/brache_1.jpg',
-            'icon': 'https://luisevonderwiese.github.io/icons/circle.png',
-            'iconSize': [10, 10],
-			'rotation' : 90,
-			'begin' : '2021-09-14-00-00',
-			'end' : '2021-11-07-23-59',
-			'begin_daily' : '00-00',
-			'end_daily' : '23-59',
-			'area' : {'type': 'geojson',
-				'data': {'type': 'Feature',
-							'geometry': {'type': 'Polygon','coordinates': [[
-            [
-			  8.349302262067795,
-              49.01907291804756
-            ],
-            [
-              8.349264711141586,
-              49.019063243472445
-            ],
-            [
-              8.34925130009651,
-              49.01904125579471
-            ],
-            [
-              8.349296897649765,
-              49.01901750909186
-            ],
-            [
-              8.349330425262451,
-              49.019029822198455
-            ],
-            [
-              8.349337130784988,
-              49.01905972544465
-            ],
-            [
-              8.349302262067795,
-              49.01907291804756
-            ]]]}}}},
+			'description': '1/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-02-11-55',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '11-55',
+			'end_daily' : '12-25'},
       "geometry": {
         "type": "Point",
         "coordinates": [
-              8.34928,
-              49.019025
-            ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-			'description': 'Maria Tackmann, Papier auf Sand, 2021.',
-			'image': 'https://luisevonderwiese.github.io/images/brache_2.jpg',
-            'icon': 'https://luisevonderwiese.github.io/icons/three_lines.png',
-            'iconSize': [30,30],
-			'rotation' : 90,
-			'begin' : '2021-09-14-00-00',
-			'end' : '2021-11-07-23-59',
-			'begin_daily' : '00-00',
-			'end_daily' : '23-59'},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.349193895168304,
-          49.018904052466226
+			23.741021403317347,
+			37.9983315819183
         ]
       }
     },
-    {
+	{
       "type": "Feature",
       "properties": {
-			'description': 'Pappbecher in Vegetation, Unbekannt, 2021.',
-			'image': 'https://luisevonderwiese.github.io/images/brache_3.jpg',
-            'icon': 'https://luisevonderwiese.github.io/icons/circle.png',
-            'iconSize': [15,15],
-			'rotation' : 0,
-			'begin' : '1970-01-01-00-00',
+			'description': '2/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-03-16-30',
 			'end' : '2100-12-31-23-59',
-			'begin_daily' : '00-00',
-			'end_daily' : '23-59'},
+			'begin_daily' : '16-30',
+			'end_daily' : '17-00'},
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.349451124668121,
-          49.018868872064665
+			23.756627005521644,
+			37.99812848844292
         ]
       }
     },
-    {
+	{
       "type": "Feature",
       "properties": {
-			'description': 'David Heitz, Fotografie, 2021.',
-            'icon': 'https://luisevonderwiese.github.io/icons/arrow.png',
-			'image': 'https://luisevonderwiese.github.io/images/brache_3.jpg',
-            'iconSize': [15,15],
-			'rotation' : 30, 
-			'begin' : '1970-01-01-00-00',
+			'description': '3/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-04-16-00',
 			'end' : '2100-12-31-23-59',
-			'begin_daily' : '21-00',
-			'end_daily' : '21-45'},
+			'begin_daily' : '16-00',
+			'end_daily' : '16-30'},
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.349448442459106,
-          49.01910106225542
+			23.7254190801513,
+			37.99925239415171 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '4/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-04-17-40',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-40',
+			'end_daily' : '18-10'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.709621825768888,
+			37.99809809447969
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '5/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-05-15-40',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '15-40',
+			'end_daily' : '16-10'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.664894595493852,
+			37.99917433056708
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '6/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-06-14-45',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '14-45',
+			'end_daily' : '15-05'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.73699942630921,
+			37.969016527550444
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '7/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-06-16-15',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '16-15',
+			'end_daily' : '16-45'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.726955091197624,
+			37.978677868937176
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '8/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-07-17-00',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-00',
+			'end_daily' : '17-30'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.756555623312245,
+			37.98576924197104 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '9/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-07-18-20',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '18-20',
+			'end_daily' : '18-50'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+		23.740925504096964,
+		37.98577375588033
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '10/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-08-15-30',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '15-30',
+			'end_daily' : '16-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.72510290468886,
+			37.9857946744391 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '11/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-08-16-35',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '16-35',
+			'end_daily' : '17-05'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.709001723154955,
+			37.98631997175653
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '12/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-10-15-30',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '15-30',
+			'end_daily' : '16-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.756408298774186,
+			37.97271947630085 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '13/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-10-16-35',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '16-35',
+			'end_daily' : '17-05'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.740943188864176,
+			37.973223662888586
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '14/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-10-17-45',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-45',
+			'end_daily' : '18-15'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.72550080494946,
+			37.97344976970907
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '15/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-11-11-10',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '11-10',
+			'end_daily' : '11-40'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.709634562896426,
+			37.973784456721425 	
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '16/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-11-12-30',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '12-30',
+			'end_daily' : '13-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.716424164417017,	
+			37.9933596289982 
+        ]
+      }
+    },
+	/*{
+      "type": "Feature",
+      "properties": {
+			'description': '17/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-11-13-35',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '13-35',
+			'end_daily' : '14-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.716424164417017,	
+			37.9933596289982 
+        ]
+      }
+    },*/
+	/*{
+      "type": "Feature",
+      "properties": {
+			'description': '18/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-15-12-50',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '12-50',
+			'end_daily' : '13-20'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.716424164417017,	
+			37.9933596289982 
+        ]
+      }
+    },*/
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '19/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-04-15-13-55',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '13-55',
+			'end_daily' : '14-25'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.7086501746195,
+			37.967941076594656 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '20/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-16-17-25',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-25',
+			'end_daily' : '17-55'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.701423884471883,
+			37.981472498733055
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '21/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-17-12-55',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '12-55',
+			'end_daily' : '13-25'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.69769514308061,
+			37.9757141690431
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '22/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-17-14-00',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '14-00',
+			'end_daily' : '14-28'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.736787508415894,
+			37.9847309896587
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '23/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-17-15-40',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '15-40',
+			'end_daily' : '16-10'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.726951058745627,
+			37.982570910871615 
+        ]
+      }
+    },
+	/*{
+      "type": "Feature",
+      "properties": {
+			'description': '24/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-17-17-20',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-20',
+			'end_daily' : '17-50'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.726951058745627,
+			37.982570910871615 
+        ]
+      }
+    },*/
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '25/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-22-12-40',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '12-40',
+			'end_daily' : '13-10'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.72782046279225, 
+			37.9805130605345
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '26/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-22-13-50',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '13-50',
+			'end_daily' : '14-20'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.693041891333984,
+			37.96103011128174
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '27/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-22-16-10',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '16-10',
+			'end_daily' : '16-40'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.709129049086854,
+			37.960980625097704
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '28/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-22-17-45',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-45',
+			'end_daily' : '18-15'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.726415771573112,
+			37.96220251947436
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '29/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-23-10-30',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '10-30',
+			'end_daily' : '11-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.742192551609186,
+			37.961554703584845 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '30/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-23-11-45',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '11-45',
+			'end_daily' : '12-15'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.74918566384432,
+			37.96879206737337
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '31/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-23-13-00',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '13-00',
+			'end_daily' : '13-30'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.745155046443934,
+			38.007000978065804 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '32/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-23-15-30',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '15-30',
+			'end_daily' : '16-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.733461052381536,
+			38.008827329495844 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '33/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-24-10-30',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '10-30',
+			'end_daily' : '10-45'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.725218243782177,
+			37.948383537535875 
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '33/38 (cafe)',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-24-10-45',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '10-45',
+			'end_daily' : '11-00'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.726155409049323,
+			37.948708266868344
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '34/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-24-11-55',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '11-55',
+			'end_daily' : '12-25'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.72460380669205,
+			37.96394137352355
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '35/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-24-14-05',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '14-05',
+			'end_daily' : '14-35'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.733724225444785,
+			37.984755702345126
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '36/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-25-16-00',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '16-00',
+			'end_daily' : '16-30'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.750381470321162,
+			37.98793565504598
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '37/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-25-17-15',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '17-15',
+			'end_daily' : '17-45'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.744344261742025,
+			38.04535595895444
+        ]
+      }
+    },
+	{
+      "type": "Feature",
+      "properties": {
+			'description': '38/38',
+            'icon': 'https://ex-tennis.github.io/icons/point.svg',
+			'image': '',
+            'iconSize': [11, 11],
+			'rotation' : 0, 
+			'color': '#FF5733',
+			'opacity': 0.9,
+			'begin' : '2019-05-25-19-15',
+			'end' : '2100-12-31-23-59',
+			'begin_daily' : '19-15',
+			'end_daily' : '19-45'},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+			23.756615733733263,
+			37.96361266905147
         ]
       }
     }
@@ -212,11 +967,13 @@ var items = {
 }
 }
 
+
+
 var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/luise-haeuser/cktemen6q2gba17s0txukk39c', 
-center: [center_x, center_y], 
-zoom: 18.5,
+center: [center_long, center_lat], 
+zoom: center_zoom,
 /*maxZoom: 19,
 minZoom: 18*/
 });
@@ -231,16 +988,7 @@ trackUserLocation: true,
 showUserHeading: true
 });
 
-/*geolocate.on('geolocate', function(e) {
-	if(!nearAreal(e.coords.longitude, e.coords.latitude)) {
-				map.flyTo({
-					center: [center_x, center_y],
-					zoom: 18.5,
-					essential: true // this animation is considered essential with respect to prefers-reduced-motion
-				});
-				//alert("Standort außerhalb der Ausstellungsfläche!");
-	}
-});*/
+
 
 map.addControl(geolocate);
 
@@ -251,7 +999,7 @@ map.addControl(geolocate);
 
 map.on('load', () => {
 
-map.addSource('border', {
+map.addSource('border_ex_tennis', {
 'type': 'geojson',
 'data': {
 'type': 'Feature',
@@ -289,10 +1037,81 @@ map.addSource('border', {
 }
 });
 
+map.addSource('border_ex_libris', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'geometry': {
+'type': 'Polygon',
+'coordinates': [
+            [
+            [
+              8.354717642068861,
+              49.01377492723374
+            ],
+            [
+              8.354812189936638,
+              49.013722151184275
+            ],
+            [
+              8.354898691177368,
+              49.01378724163722
+            ],
+            [
+              8.354869186878204,
+              49.013933255046396
+            ],
+            [
+              8.354711942374706,
+              49.01389477263824
+            ],
+            [
+              8.354730382561684,
+              49.013783063536366
+            ],
+            [
+              8.354717642068861,
+              49.01377492723374
+            ]
+]
+]
+}
+}
+});
+
+map.addSource('route', {
+'type': 'geojson',
+'data':{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[8.349080999999615,49.01900099999983],[8.349156000000022,49.018999000000036],[8.349201000000306,49.019012999999944],[8.349286999999947,49.01898399999999],[8.349299999999573,49.018969999999854],[8.34935599999909,49.0189679999998],[8.349398999998954,49.01895199999993],[8.349420000000237,49.018933999999945],[8.34941399999903,49.01891100000009],[8.349471999998912,49.01885400000006],[8.349461999999875,49.018830000000065],[8.34938599999927,49.018800999999996],[8.349332000000146,49.018790000000024],[8.349288000000115,49.018775999999804],[8.349216999999044,49.018752999999805],[8.3491539999996,49.01881699999984],[8.349139999999721,49.01885400000006],[8.349133999999992,49.01890299999985]]}}
+});
+
+map.addSource('route_florian', {
+'type': 'geojson',
+'data':{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[8.349201000000306,49.019012999999944],[8.349235999999962,49.0190360000002]]}}
+});
+
+map.addSource('route_tür', {
+'type': 'geojson',
+'data':{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[8.349420000000237,49.018933999999945],[8.349493000000251,49.018939999999986],[8.349560999999227,49.018969999999854]]}}
+});
+
+
+//map.addSource("polygon", createGeoJSONCircle());
+
 map.addLayer({
-'id': 'outline',
+    "id": "area_ex_tennis",
+    "type": "fill",
+    "source": "border_ex_tennis",
+    "layout": {},
+    "paint": {
+        "fill-color": "green",
+        "fill-opacity": 0.1
+    }
+});
+
+map.addLayer({
+'id': 'outline_ex_tennis',
 'type': 'line',
-'source': 'border',
+'source': 'border_ex_tennis',
 'layout': {},
 'paint': {
 'line-color': '#000',
@@ -300,7 +1119,66 @@ map.addLayer({
 }
 });
 
-var i = 0
+
+map.addLayer({
+    "id": "area_ex_libris",
+    "type": "fill",
+    "source": "border_ex_libris",
+    "layout": {},
+    "paint": {
+        "fill-color": "#1E90FF",
+        "fill-opacity": 0.1
+    }
+});
+
+map.addLayer({
+'id': 'outline_ex_libris',
+'type': 'line',
+'source': 'border_ex_libris',
+'layout': {},
+'paint': {
+'line-color': '#000',
+'line-width': 1
+}
+});
+
+map.addLayer({
+'id': 'r',
+'type': 'line',
+'source': 'route',
+'layout': {},
+'paint': {
+'line-color': 'black',
+'line-width': 3,
+'line-opacity': 0.1,
+'line-dasharray': [2, 1],
+}});
+
+map.addLayer({
+'id': 'r_florian',
+'type': 'line',
+'source': 'route_florian',
+'layout': {},
+'paint': {
+'line-color': 'black',
+'line-width': 3,
+'line-opacity': 0.1,
+'line-dasharray': [2, 1],
+}});
+
+map.addLayer({
+'id': 'r_tür',
+'type': 'line',
+'source': 'route_tür',
+'layout': {},
+'paint': {
+'line-color': 'black',
+'line-width': 3,
+'line-opacity': 0.1,
+'line-dasharray': [2, 1],
+}});
+
+/*var i = 0
 items.data.features.forEach(function (marker) {
 	if(visibleNow(marker)){
 		if(map.getSource('area_' + i) == undefined && marker.properties.area != undefined) {
@@ -317,20 +1195,22 @@ items.data.features.forEach(function (marker) {
 		}
 		i++;
 	}
+});*/
+
+
+
 });
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-	if(!nearAreal(position.coords.longitude, position.coords.latitude)) {
-		vorort_mode = false;
-		console.log("switch to home mode");
-	} else {
-		geolocate.trigger();
-	}
-  });
-}
-
-
+map.on('zoom', () => {
+var i = 0;
+markers.forEach(function (marker) {
+	//TO DO: Compute Properly!
+    const scalePercent = Math.pow(2, map.getZoom() - center_zoom);
+    const el = marker.getElement();
+	el.style.width = items.data.features[i].properties.iconSize[0]*scalePercent + 'px';
+    el.style.height = items.data.features[i].properties.iconSize[1]*scalePercent + 'px';
+	i++;
+});
 });
 
 
@@ -341,16 +1221,23 @@ items.data.features.forEach(function (marker) {
 		el.style.width = marker.properties.iconSize[0] + 'px';
         el.style.height = marker.properties.iconSize[1] + 'px';
 		el.style.border = marker.properties.iconSize[0] + 'px';
-		el.style.backgroundImage = 'url(\'' + marker.properties.icon + '\')';
+		el.style.maskImage = 'url(\'' + marker.properties.icon + '\')';
+		el.style.webkitMaskImage = 'url(\'' + marker.properties.icon + '\')';
+		el.style.maskSize = 'contain';
+		el.style.webkitMaskSize = 'contain';
+		el.style.backgroundColor = (marker.properties.color);
+		el.style.opacity = (marker.properties.opacity);
+		/*var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
+			"<div style=\"padding:12px\"><img class = \"popupimg\" src=\"" + marker.properties.image + "\" style=\"margin:auto; width:200px;display:block\" />" + marker.properties.description + '<div/>');*/
 		var popup = new mapboxgl.Popup({ offset: marker.properties.iconSize[1]/2 + 2 }).setHTML(
-			"<div style=\"padding:12px\"><img class = \"popupimg\" src=\"" + marker.properties.image + "\" style=\"margin:auto; width:200px;display:block\" />" + marker.properties.description + '<div/>'
-				
-		);
+			"<div style=\"padding:12px\">" + marker.properties.description + '<div/>');
 		
-		new mapboxgl.Marker(el)
+		var m = new mapboxgl.Marker(el)
 		.setLngLat(marker.geometry.coordinates)
 		.setPopup(popup)
 		.addTo(map);
+		
+		markers.push(m);
 		
 
 	}
@@ -371,100 +1258,17 @@ function visibleNow(marker) {
     parts = marker.properties.end_daily.split('-');
 	const end_daily = new Date(today.getFullYear(), today.getMonth(), today.getDate(), parts[0], parts[1]);
 	if(today.getTime() < begin.getTime() || today.getTime() > end.getTime()) {
-		return false;
+		return true;
+		//return false;
 	}
 	if(today.getTime() < begin_daily.getTime() || today.getTime() > end_daily.getTime()) {
-		return false;
+		return true;
+		//return false;
 	}
 	return true;
 }
 
 	
-function nearAreal(x, y){
-	/*var y_rad = 0.001;
-	var x_rad = 0.0005;*/
-	//Bis Bibliothek
-	var y_rad = 0.02;
-	var x_rad = 0.01;
-    var p = (parseInt(Math.pow((x - center_x), 2)) / parseInt(Math.pow(x_rad, 2)))
-            + (parseInt(Math.pow((y - center_y), 2)) / parseInt(Math.pow(y_rad, 2)));
- 
-    return p <= 1;
-}
-
-class ResetButton {
-  onAdd(map){
-    this.map = map;
-    this.container = document.createElement('div');
-	this.container.style.backgroundSize = 'cover';
-	this.container.style.backgroundImage = 'url(https://luisevonderwiese.github.io/icons/reset.png)';
-	this.container.style.width = '25px';
-	this.container.style.height = '25px';
-    this.container.style.margin = '1em 1em 0em 0em';
-    this.container.className = 'mapboxgl-ctrl';
-    const button = this._createButton('button2')
-    this.container.appendChild(button);
-    return this.container;
-  }
-  onRemove(){
-    this.container.parentNode.removeChild(this.container);
-    this.map = undefined;
-  }
-  
-  _createButton(className) {
-    const el = window.document.createElement('button')
-    el.className = className;
-    el.addEventListener('click',(e)=>{
-		this.map.flyTo({
-center: [center_x, center_y],
-zoom: 18.5,
-essential: true // this animation is considered essential with respect to prefers-reduced-motion
-});
-    },false )
-    return el;
-  }
-}
-
-
-
-class AboutButton {
-  onAdd(map){
-    this.map = map;
-    this.container = document.createElement('div');
-	this.container.style.backgroundSize = 'cover';
-	this.container.style.backgroundImage = 'url(https://luisevonderwiese.github.io/icons/info.png)';
-	this.container.style.width = '25px';
-	this.container.style.height = '25px';
-    this.container.style.margin = '1em 1em 0em 0em';
-    this.container.className = 'mapboxgl-ctrl';
-    const button = this._createButton('button2')
-    this.container.appendChild(button);
-    return this.container;
-  }
-  onRemove(){
-    this.container.parentNode.removeChild(this.container);
-    this.map = undefined;
-  }
-  
-  _createButton(className) {
-    const el = window.document.createElement('button')
-    el.className = className;
-    el.addEventListener('click',(e)=>{
-  let overlayDiv = document.querySelector(".overlay");
-  console.log(overlayDiv.style.opacity);
-  if (overlayDiv.style.visibility === 'hidden')
-    overlayDiv.style.visibility = 'visible';
-  else
-    overlayDiv.style.opacity = 'hidden';},false )
-    return el;
-  }
-}
-
-const resetButton = new ResetButton();
-map.addControl(resetButton);
-
-const aboutButton = new AboutButton();
-map.addControl(aboutButton);
 
 
 
@@ -472,7 +1276,27 @@ map.addControl(aboutButton);
 
 <div class="overlay" style="visibility: hidden;">
 <button  class = "innerbutton" onclick="document.querySelector('.overlay').style.visibility = 'hidden'">close</button>
-Hier steht ein interessanter Text über unser Projekt. <br> Und darüber, wer wir sind und was wir machen. <br> Ganz tolle Sachen nämlich. <br> Außerdem gibt es Kuchen.  <br> Vielleicht. <br> </div>
+5/11/21<br>
+6/11/21<br>
+7/11/21<br>
+<br>
+lokal open<br>
+Johanna Broziat, David Heitz, Florian Köhler, Maria Tackmann<br>
+11 bis 17 Uhr<br>
+<br>
+Interaktiver Ausstellungsplan (ab 5/11/21)<br>
+Interdisziplinäre Kooperation Luise Häuser und David Heitz<br>
+<br>
+<br>
+7/11/21<br>
+Buchpräsentation und Lesung<br>
+Eva Löbau liest aus Alles möglich (ab 18) von Johanna Broziat<br>
+und Where are you? von Maria Tackmann<br>
+mit anschliessendem Gespräch<br>
+16 Uhr<br>
+<br>
+
+<a href="https://instagram.com/libris_ex_libris"  style="color: white">@instagram</a> </div>
 
 </body>
 </html>
